@@ -1,0 +1,12 @@
+bin/
+x64/
+x86/
+Debug/
+Release/
+obj/
+.vs/
+
+*.db
+*.opendb
+*.suo
+*.user
