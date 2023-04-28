@@ -14,6 +14,48 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		README.md = README.md
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "G29LedPlugin", "G29LedPlugin\G29LedPlugin.vcxproj", "{1148284D-9566-4F3F-9319-B3AEDF8008F9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scs_sdk", "scs_sdk", "{4D629EE4-0BF5-4631-97AC-CE3F21BF0054}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v1.14", "v1.14", "{75484868-F578-4AC7-BA6C-BFB48D5EF62D}"
+	ProjectSection(SolutionItems) = preProject
+		scs_sdk\v1.14\readme.txt = scs_sdk\v1.14\readme.txt
+		scs_sdk\v1.14\scssdk.h = scs_sdk\v1.14\scssdk.h
+		scs_sdk\v1.14\scssdk_input.h = scs_sdk\v1.14\scssdk_input.h
+		scs_sdk\v1.14\scssdk_input_device.h = scs_sdk\v1.14\scssdk_input_device.h
+		scs_sdk\v1.14\scssdk_input_event.h = scs_sdk\v1.14\scssdk_input_event.h
+		scs_sdk\v1.14\scssdk_telemetry.h = scs_sdk\v1.14\scssdk_telemetry.h
+		scs_sdk\v1.14\scssdk_telemetry_channel.h = scs_sdk\v1.14\scssdk_telemetry_channel.h
+		scs_sdk\v1.14\scssdk_telemetry_event.h = scs_sdk\v1.14\scssdk_telemetry_event.h
+		scs_sdk\v1.14\scssdk_value.h = scs_sdk\v1.14\scssdk_value.h
+		scs_sdk\v1.14\sdk_license.txt = scs_sdk\v1.14\sdk_license.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "amtrucks", "amtrucks", "{33797F7E-C0D7-436C-8C6C-63D8C7BEE4BD}"
+	ProjectSection(SolutionItems) = preProject
+		scs_sdk\v1.14\amtrucks\scssdk_ats.h = scs_sdk\v1.14\amtrucks\scssdk_ats.h
+		scs_sdk\v1.14\amtrucks\scssdk_input_ats.h = scs_sdk\v1.14\amtrucks\scssdk_input_ats.h
+		scs_sdk\v1.14\amtrucks\scssdk_telemetry_ats.h = scs_sdk\v1.14\amtrucks\scssdk_telemetry_ats.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{A6865477-E338-4DD6-8062-816F151FE65C}"
+	ProjectSection(SolutionItems) = preProject
+		scs_sdk\v1.14\common\scssdk_telemetry_common_channels.h = scs_sdk\v1.14\common\scssdk_telemetry_common_channels.h
+		scs_sdk\v1.14\common\scssdk_telemetry_common_configs.h = scs_sdk\v1.14\common\scssdk_telemetry_common_configs.h
+		scs_sdk\v1.14\common\scssdk_telemetry_common_gameplay_events.h = scs_sdk\v1.14\common\scssdk_telemetry_common_gameplay_events.h
+		scs_sdk\v1.14\common\scssdk_telemetry_job_common_channels.h = scs_sdk\v1.14\common\scssdk_telemetry_job_common_channels.h
+		scs_sdk\v1.14\common\scssdk_telemetry_trailer_common_channels.h = scs_sdk\v1.14\common\scssdk_telemetry_trailer_common_channels.h
+		scs_sdk\v1.14\common\scssdk_telemetry_truck_common_channels.h = scs_sdk\v1.14\common\scssdk_telemetry_truck_common_channels.h
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "eurotrucks2", "eurotrucks2", "{A01194C8-1EBA-4E14-8C3C-8B36781D27AA}"
+	ProjectSection(SolutionItems) = preProject
+		scs_sdk\v1.14\eurotrucks2\scssdk_eut2.h = scs_sdk\v1.14\eurotrucks2\scssdk_eut2.h
+		scs_sdk\v1.14\eurotrucks2\scssdk_input_eut2.h = scs_sdk\v1.14\eurotrucks2\scssdk_input_eut2.h
+		scs_sdk\v1.14\eurotrucks2\scssdk_telemetry_eut2.h = scs_sdk\v1.14\eurotrucks2\scssdk_telemetry_eut2.h
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -30,9 +72,24 @@ Global
 		{167D555B-B12F-46DB-8E21-439BBDB5237B}.Release|x64.Build.0 = Release|x64
 		{167D555B-B12F-46DB-8E21-439BBDB5237B}.Release|x86.ActiveCfg = Release|Win32
 		{167D555B-B12F-46DB-8E21-439BBDB5237B}.Release|x86.Build.0 = Release|Win32
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Debug|x64.ActiveCfg = Debug|x64
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Debug|x64.Build.0 = Debug|x64
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Debug|x86.ActiveCfg = Debug|Win32
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Debug|x86.Build.0 = Debug|Win32
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Release|x64.ActiveCfg = Release|x64
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Release|x64.Build.0 = Release|x64
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Release|x86.ActiveCfg = Release|Win32
+		{1148284D-9566-4F3F-9319-B3AEDF8008F9}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4D629EE4-0BF5-4631-97AC-CE3F21BF0054} = {7FB79057-F558-4766-8DBA-CE153719E0DF}
+		{75484868-F578-4AC7-BA6C-BFB48D5EF62D} = {4D629EE4-0BF5-4631-97AC-CE3F21BF0054}
+		{33797F7E-C0D7-436C-8C6C-63D8C7BEE4BD} = {75484868-F578-4AC7-BA6C-BFB48D5EF62D}
+		{A6865477-E338-4DD6-8062-816F151FE65C} = {75484868-F578-4AC7-BA6C-BFB48D5EF62D}
+		{A01194C8-1EBA-4E14-8C3C-8B36781D27AA} = {75484868-F578-4AC7-BA6C-BFB48D5EF62D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F4FC28E8-56BC-4EC6-8D9B-C2BEA74910B4}
