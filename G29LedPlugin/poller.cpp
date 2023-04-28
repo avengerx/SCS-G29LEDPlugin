@@ -84,7 +84,7 @@ void Poll() {
             InitFuelGaugeAnimation();
             UpdateFuelCHK();
             start_leds = false;
-        } else if (current.fuel < (last.fuel - 0.1) || current.fuel > (last.fuel + 0.1) || current.fuel_max != last.fuel_max) {
+        } else if (current.fuel < (last.fuel - 0.01) || current.fuel > (last.fuel + 0.01) || current.fuel_max != last.fuel_max) {
             UpdateFuelCHK();
             last = current;
         }
