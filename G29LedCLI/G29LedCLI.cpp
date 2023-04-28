@@ -4,6 +4,42 @@
 #include <hidsdi.h>
 #include <SetupAPI.h>
 
+#define G29_LED_00000 0x00
+#define G29_LED_10000 0x01
+#define G29_LED_01000 0x02
+#define G29_LED_11000 0x03
+#define G29_LED_00100 0x04
+#define G29_LED_10100 0x05
+#define G29_LED_01100 0x06
+#define G29_LED_11100 0x07
+#define G29_LED_00010 0x08
+#define G29_LED_10010 0x09
+#define G29_LED_01010 0x0a
+#define G29_LED_11010 0x0b
+#define G29_LED_00110 0x0c
+#define G29_LED_10110 0x0d
+#define G29_LED_01110 0x0e
+#define G29_LED_11110 0x0f
+#define G29_LED_00001 0x10
+#define G29_LED_10001 0x11
+#define G29_LED_01001 0x12
+#define G29_LED_11001 0x13
+#define G29_LED_00101 0x14
+#define G29_LED_10101 0x15
+#define G29_LED_01101 0x16
+#define G29_LED_11101 0x17
+#define G29_LED_00011 0x18
+#define G29_LED_10011 0x19
+#define G29_LED_01011 0x1a
+#define G29_LED_11011 0x1b
+#define G29_LED_00111 0x1c
+#define G29_LED_10111 0x1d
+#define G29_LED_01111 0x1e
+#define G29_LED_11111 0x1f
+
+#define G29_LED_NONE G29_LED_00000
+#define G29_LED_ALL G29_LED_11111
+
 USHORT HIDPayloadLen = 0;
 WCHAR* HIDPath;
 bool Verbose = false;
@@ -26,7 +62,9 @@ static const byte miss1States[] = { 0x0f, 0x17, 0x1b, 0x1d, 0x1e };
 void detailedError(const WCHAR* msg);
 void ledSync();
 void loadHID();
-void sendHIDPayload(byte cmd, byte arg1 = 0x00, byte arg2 = 0x00, byte arg3 = 0x00, byte arg4 = 0x00, byte arg5 = 0x00, byte arg6 = 0x00);
+HRESULT sendHIDPayload(byte cmd, byte arg1 = 0x00, byte arg2 = 0x00, byte arg3 = 0x00, byte arg4 = 0x00, byte arg5 = 0x00, byte arg6 = 0x00);
+static HRESULT InitFuelGaugeAnimation();
+static HRESULT ShutdownFuelGaugeAnimation();
 
 int main()
 {
@@ -140,6 +178,8 @@ int main()
             "[kl]) prev, next light state\n"
             "[,.]) prev, next fill state\n"
             "[io]) prev, next rpm state\n"
+            "e) truck electricity init animation (fuel gauge)\n"
+            "r) truck shutdown animation (fuel gauge)\n"
             "f) star wars laser shot effect\n"
             "g) full animation effect\n"
             "v) toggle HID commands verbosity\n"
@@ -261,6 +301,16 @@ int main()
                 Verbose = !Verbose;
                 printf("Verbose output is now %s.\n", Verbose ? "enabled" : "disabled");
                 handled = true;
+            } else if (cmd == 'e') {
+                printf("start truck electricity...");
+                InitFuelGaugeAnimation();
+                printf(" startup complete.");
+                break;
+            } else if (cmd == 'r') {
+                printf("shutdown truck electricity...");
+                ShutdownFuelGaugeAnimation();
+                printf(" shutdown complete.");
+                break;
             }
 
             if (handled) {
@@ -325,7 +375,7 @@ void loadHID() {
     printf("Joystick HID packet size: %u bytes.\n", HIDPayloadLen);
 }
 
-void sendHIDPayload(byte cmd, byte arg1, byte arg2, byte arg3, byte arg4, byte arg5, byte arg6) {
+HRESULT sendHIDPayload(byte cmd, byte arg1, byte arg2, byte arg3, byte arg4, byte arg5, byte arg6) {
     if (HIDPayloadLen == 0) {
         printf("Tried to send HID command before initialization.\n");
         exit(1);
@@ -371,9 +421,106 @@ void sendHIDPayload(byte cmd, byte arg1, byte arg2, byte arg3, byte arg4, byte a
 
 
     CloseHandle(hidHandle);
+    return S_OK;
 }
 
 void ledSync() {
     if (Verbose) printf("Syncing LEDs with value: 0x%02x\n", ledState);
     sendHIDPayload(0xf8, 0x12, ledState, 0x00, 0x00, 0x00, 0x01);
+}
+
+static HRESULT updateLEDs(unsigned char new_state) {
+    if (new_state != ledState) {
+        ledState = new_state;
+        return sendHIDPayload(0xf8, 0x12, ledState, 0x00, 0x00, 0x00, 0x01);
+    } else return S_OK;
+}
+
+#define UpdateChk(x) update_state = updateLEDs(x); if (update_state != S_OK) return update_state;
+
+static HRESULT InitFuelGaugeAnimation() {
+    DWORD delay = 50;
+    size_t i;
+    HRESULT update_state;
+    unsigned char animation[] = {
+        G29_LED_00000,
+        G29_LED_00001,
+        G29_LED_00010,
+        G29_LED_00100,
+        G29_LED_01000,
+        G29_LED_10000,
+        G29_LED_11000,
+        G29_LED_11100,
+        G29_LED_11110,
+        G29_LED_11111
+    };
+    unsigned char down_animation[] = {
+        G29_LED_11111,
+        G29_LED_01111,
+        G29_LED_00111,
+        G29_LED_00011,
+        G29_LED_00001,
+        G29_LED_00000
+    };
+    size_t anim_len = sizeof(animation) / sizeof(unsigned char);
+    unsigned char target_led_state = ledState;
+
+    for (i = 0; i < anim_len; i++) {
+        UpdateChk(animation[i]);
+        Sleep(delay);
+    }
+
+    anim_len = sizeof(down_animation) / sizeof(unsigned char);
+    for (i = 0; i < anim_len; i++) {
+        UpdateChk(down_animation[i]);
+        if (down_animation[i] == target_led_state) break;
+        Sleep(delay);
+    }
+
+    for (i = 0; i < 3; i++) {
+        Sleep(100);
+        UpdateChk(G29_LED_NONE);
+        Sleep(25);
+        UpdateChk(target_led_state);
+    }
+
+    if (target_led_state == G29_LED_00001) {
+        for (i = 0; i < 5; i++) {
+            Sleep(100);
+            UpdateChk(G29_LED_NONE);
+            Sleep(50);
+            UpdateChk(target_led_state);
+        }
+    }
+
+    return S_OK;
+}
+
+static HRESULT ShutdownFuelGaugeAnimation() {
+    size_t i;
+    HRESULT update_state;
+    unsigned char current_led_state = ledState;
+
+    UpdateChk(G29_LED_NONE);
+    Sleep(25);
+    UpdateChk(current_led_state);
+    Sleep(200);
+    UpdateChk(G29_LED_NONE);
+    Sleep(30);
+    UpdateChk(current_led_state);
+    Sleep(10);
+    UpdateChk(G29_LED_NONE);
+    Sleep(45);
+    UpdateChk(current_led_state);
+    Sleep(160);
+    UpdateChk(G29_LED_NONE);
+    Sleep(50);
+    UpdateChk(current_led_state);
+    Sleep(25);
+    UpdateChk(G29_LED_NONE);
+    Sleep(70);
+    UpdateChk(current_led_state);
+    Sleep(10);
+    UpdateChk(G29_LED_NONE);
+    return S_OK;
 }
