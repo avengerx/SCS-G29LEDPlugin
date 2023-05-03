@@ -182,9 +182,9 @@ static unsigned char ledStateFromFillState() {
     fill_state = current_fuel / max_fuel;
     log("Fuel: %1.2f / %1.2f (%1.2f)", current_fuel, max_fuel, fill_state);
     if (fill_state < 0.15)      return G29_LED_00001;
-    else if (fill_state < 0.42) return G29_LED_00011;
-    else if (fill_state < 0.70) return G29_LED_00111;
-    else if (fill_state < 1.02) return G29_LED_01111;
+    else if (fill_state < 0.25) return G29_LED_00011;
+    else if (fill_state < 0.50) return G29_LED_00111;
+    else if (fill_state < 0.75) return G29_LED_01111;
     else                        return G29_LED_11111;
 }
 
